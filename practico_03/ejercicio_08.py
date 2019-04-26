@@ -15,14 +15,24 @@
 # - False en caso de no cumplir con alguna validacion.
 
 import datetime
+import sqlite3
 
 from practico_03.ejercicio_02 import agregar_persona
 from practico_03.ejercicio_06 import reset_tabla
 from practico_03.ejercicio_07 import agregar_peso
+from practico_03.ejercicio_04 import buscar_persona
 
 
 def listar_pesos(id_persona):
-    return []
+    db=sqlite3.connect('mibase.db')
+    cursor=db.cursor()
+    if (buscar_persona(id_persona) == False):
+        return False
+    cadena = "SELECT fecha,peso FROM personas_peso where idPersona = ?"
+    tdatos = (id_persona,)
+    cursor.execute(cadena,tdatos)
+    lista = cursor.fetchall()
+    return lista
 
 
 @reset_tabla
@@ -32,8 +42,8 @@ def pruebas():
     agregar_peso(id_juan, datetime.datetime(2018, 6, 1), 85)
     pesos_juan = listar_pesos(id_juan)
     pesos_esperados = [
-        ('2018-05-01', 80),
-        ('2018-06-01', 85),
+        ("2018-05-01 00:00:00", 80),
+        (datetime.datetime(2018,6,1).strftime('%Y-%m-%d %H:%M:%S'), 85),
     ]
     assert pesos_juan == pesos_esperados
     # id incorrecto
@@ -42,3 +52,4 @@ def pruebas():
 
 if __name__ == '__main__':
     pruebas()
+

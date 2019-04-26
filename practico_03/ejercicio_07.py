@@ -8,13 +8,30 @@
 # - False en caso de no cumplir con alguna validacion.
 
 import datetime
+import sqlite3
 
 from practico_03.ejercicio_02 import agregar_persona
+from practico_03.ejercicio_04 import buscar_persona
 from practico_03.ejercicio_06 import reset_tabla
 
 
 def agregar_peso(id_persona, fecha, peso):
-    pass
+    db=sqlite3.connect('mibase.db')
+    cursor=db.cursor()
+    if (buscar_persona(id_persona) == False):
+        return False
+    respuesta = False
+    cadena1 = "SELECT count(*) FROM personas_peso where idPersona = ? and fecha >= ? "
+    tdatos = (id_persona,fecha)
+    cantidad = cursor.execute(cadena1,tdatos).fetchone()[0]
+    if(cantidad == 0):
+        cadena2 = "INSERT INTO personas_peso VALUES(?,?,?);"
+        tdatos = (id_persona,fecha,peso)
+        cursor.execute(cadena2,tdatos)
+        respuesta = cursor.lastrowid
+        db.commit()
+    db.close()
+    return respuesta
 
 
 @reset_tabla

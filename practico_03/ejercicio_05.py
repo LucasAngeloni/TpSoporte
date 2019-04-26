@@ -17,6 +17,7 @@ def actualizar_persona(id_persona, nombre, nacimiento, dni, altura):
 
     cursor.execute(sentencia,tdatos)
     db.commit()
+    persona = cursor.fetchone()
     cant = cursor.rowcount
     db.close()
     if cant == 0:
@@ -26,9 +27,9 @@ def actualizar_persona(id_persona, nombre, nacimiento, dni, altura):
 
 @reset_tabla
 def pruebas():
-    id_juan = agregar_persona('juan perez', datetime.date(1988, 5, 15), 32165498, 180)
-    actualizar_persona(id_juan, 'juan carlos perez', datetime.date(1988, 4, 16), 32165497, 181)
-    assert buscar_persona(id_juan) == (1, 'juan carlos perez', '1988-04-16', 32165497, 181)
+    id_juan = agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180)
+    actualizar_persona(id_juan, 'juan carlos perez', datetime.datetime(1988, 4, 16), 32165497, 181)
+    assert buscar_persona(id_juan) == (1, 'juan carlos perez', datetime.datetime(1988, 4, 16).strftime('%Y-%m-%d %H:%M:%S'), 32165497, 181)
     assert actualizar_persona(123, 'nadie', datetime.date(1988, 4, 16), 12312312, 181) is False
 
 if __name__ == '__main__':

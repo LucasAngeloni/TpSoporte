@@ -11,8 +11,8 @@ import sqlite3
 def crear_tabla_peso():
     db=sqlite3.connect('mibase.db')
     cursor=db.cursor()
-    sentencia='CREATE TABLE IF NOT EXISTS personas_peso([idPersona] INTEGER, [fecha] date, [peso] integer,' \
-              'FOREIGN KEY(idPersona) REFERENCES personas(idPersona))'
+    sentencia="""CREATE TABLE IF NOT EXISTS personas_peso([idPersona] INTEGER, [fecha] datetime, [peso] integer,
+              PRIMARY KEY(idPersona,fecha) FOREIGN KEY(idPersona) REFERENCES personas(idPersona))"""
     cursor.execute(sentencia)
     db.commit()
     db.close()
