@@ -2,6 +2,8 @@
   <component name="FileTypeManager" version="17">
     <extensionMap>
       <mapping ext="db" type="PLAIN_TEXT" />
+      <mapping pattern="TP3A_ejercicio2" type="Python" />
+      <mapping pattern="TP3A_ejercicio1" type="Python" />
     </extensionMap>
   </component>
 </application>
