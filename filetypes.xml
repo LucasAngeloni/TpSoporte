@@ -4,6 +4,8 @@
       <mapping ext="db" type="PLAIN_TEXT" />
       <mapping pattern="TP3A_ejercicio2" type="Python" />
       <mapping pattern="TP3A_ejercicio1" type="Python" />
+      <mapping pattern="ejercicio_02" type="Python" />
+      <mapping pattern="ejercicio_01" type="Python" />
     </extensionMap>
   </component>
 </application>
