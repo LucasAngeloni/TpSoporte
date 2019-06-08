@@ -1,0 +1,100 @@
+## 2 Ejercicio Hacer un formulario en Tkinter una calculadora que tenga 1 entry y 12 botones para los dígitos 0 al 9
+## y las operaciones + - / * = , que al apretar cada botón vaya agregando al valor que muestra en el entry el carácter
+## que le corresponde ( como se ve imagen ) y cuando se aprieta en = pone el resultado de evaluar la cadena entrada .
+
+from tkinter import *
+from tkinter import ttk
+
+class Aplicacion():
+    def __init__(self):     #--- recibe como parámetros un form contenedor y un título
+        self.raiz = Tk()
+        self.raiz.title('Calculadora')
+        self.raiz.geometry("230x200")
+        self.marco = ttk.Frame(self.raiz,borderwidth =2,relief="raised",padding=(20,20))
+
+        self.cadena = StringVar()
+
+        self.Salida = ttk.Entry(self.raiz, textvariable = self.cadena, width=30, state='disabled')
+        self.Salida.config({"background": "White"})
+        self.botones = [0]*10
+
+        self.botones[0] = ttk.Button(self.raiz,text='0',width=5,command = lambda: self.agregarCaracter('0'))
+        self.botones[1] = ttk.Button(self.raiz,text='1',width=5,command = lambda: self.agregarCaracter('1'))
+        self.botones[2] = ttk.Button(self.raiz,text='2',width=5,command = lambda: self.agregarCaracter('2'))
+        self.botones[3] = ttk.Button(self.raiz,text='3',width=5,command = lambda: self.agregarCaracter('3'))
+        self.botones[4] = ttk.Button(self.raiz,text='4',width=5,command = lambda: self.agregarCaracter('4'))
+        self.botones[5] = ttk.Button(self.raiz,text='5',width=5,command = lambda: self.agregarCaracter('5'))
+        self.botones[6] = ttk.Button(self.raiz,text='6',width=5,command = lambda: self.agregarCaracter('6'))
+        self.botones[7] = ttk.Button(self.raiz,text='7',width=5,command = lambda: self.agregarCaracter('7'))
+        self.botones[8] = ttk.Button(self.raiz,text='8',width=5,command = lambda: self.agregarCaracter('8'))
+        self.botones[9] = ttk.Button(self.raiz,text='9',width=5,command = lambda: self.agregarCaracter('9'))
+
+        self.btnSumar = ttk.Button(self.raiz,text='+',width=5,command = lambda: self.agregarCaracter('+'))
+        self.btnRestar = ttk.Button(self.raiz,text='-',width=5,command = lambda: self.agregarCaracter('-'))
+        self.btnMultiplicar = ttk.Button(self.raiz,text='X',width=5,command = lambda: self.agregarCaracter('*'))
+        self.btnDividir = ttk.Button(self.raiz,text='%',width=5,command = lambda: self.agregarCaracter('/'))
+        self.btnIgual = ttk.Button(self.raiz,text='=',width=5,command= self.evaluar)
+        self.btnAC = ttk.Button(self.raiz,text='AC',width=5,command= self.limpiar)
+
+        self.marco.grid(column=0, row=0, padx=20, pady=20)
+        self.Salida.grid(column=0,row=0,columnspan=4,sticky=W,pady=20,padx=5)
+        self.botones[7].grid(column=0,row=1,padx=2,pady=2)
+        self.botones[4].grid(column=0,row=2,padx=2,pady=2)
+        self.botones[1].grid(column=0,row=3,padx=2,pady=2)
+        self.botones[0].grid(column=0,row=4,padx=2,pady=2)
+        self.botones[8].grid(column=1,row=1,padx=2,pady=2)
+        self.botones[5].grid(column=1,row=2,padx=2,pady=2)
+        self.botones[2].grid(column=1,row=3,padx=2,pady=2)
+        self.botones[9].grid(column=2,row=1,padx=2,pady=2)
+        self.botones[6].grid(column=2,row=2,padx=2,pady=2)
+        self.botones[3].grid(column=2,row=3,padx=2,pady=2)
+        self.btnSumar.grid(column=3,row=1)
+        self.btnRestar.grid(column=3,row=2)
+        self.btnMultiplicar.grid(column=3,row=3)
+        self.btnDividir.grid(column=3,row=4)
+        self.btnIgual.grid(column=1,row=4)
+        self.btnAC.grid(column=2,row=4)
+
+        self.raiz.mainloop()
+
+    def agregarCaracter(self,n):
+        if self.cadena.get() == 'ERROR':
+            self.cadena.set('')
+        expresion = self.cadena.get() + n
+        self.cadena.set(expresion)
+        print(self.cadena.get())
+        
+    def suma(self):
+        resultado = self.num1.get() + self.num2.get()
+        print(resultado)
+    def evaluar(self):
+        try:
+            result=eval(self.cadena.get())
+        except ZeroDivisionError:
+            self.cadena.set('ERROR')
+        self.cadena.set(str(result))
+
+    def limpiar(self):
+        self.cadena.set('')
+
+    def resta(self):
+        resultado = self.num1.get() - self.num2.get()
+        print(resultado)
+
+    def multiplicacion(self):
+        resultado = self.num1.get() * self.num2.get()
+        print (resultado)
+
+    def division(self):
+        try:
+            resultado = self.num1.get() / self.num2.get()
+            print (resultado)
+        except ZeroDivisionError:
+            print('No se puede dividir por cero')
+
+def main():
+    mi_app = Aplicacion()
+    return 0
+
+if __name__ == '__main__':
+    main()
