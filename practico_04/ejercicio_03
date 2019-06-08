@@ -1,0 +1,54 @@
+## 3 Ejercicio Crear un Formulario que usando el control Treeview muestre la una lista con los nombre de
+## Ciudades Argentinas y su código postal ( por lo menos 5 ciudades ) .
+
+import tkinter as tk
+from tkinter import ttk
+
+class Application(ttk.Frame):
+
+    def __init__(self, main_window):
+        super().__init__(main_window)
+        main_window.title("Ciudades Argentinas")
+
+        self.treeview = ttk.Treeview(self,columns="#1")
+        self.treeview.heading("#0",text="Ciudad")
+        self.treeview.heading("#1",text="Codigo Postal")
+        self.treeview.column("#0",anchor="center")
+        self.treeview.column("#1",anchor="center")
+        self.treeview.grid(column=0,row=0)
+        self.treeview.columnconfigure(0,weight=1)
+        self.treeview.rowconfigure(0,weight=1)
+
+        self.ciudades = ["Rosario","Santa Fe","Cordoba","Pergamino","La Plata"]
+        self.cod_postal = {self.ciudades[0]:"2000",self.ciudades[1]:"3000",self.ciudades[2]:"5000",self.ciudades[3]:"2700",self.ciudades[4]:"1900"}
+
+        self.cargar_datos()
+        self.grid()
+
+    def cargar_datos(self):
+        self.item_ciudad = []
+        for i in self.ciudades:
+            self.treeview.insert("",tk.END,text=i,values=(self.cod_postal[i]))
+
+    def agregarCiudad(self,ciudad,cod_postal):
+        self.ciudades.append(ciudad)
+        self.cod_postal[ciudad] = cod_postal
+
+    def reiniciar(self):
+        self.treeview = ttk.Treeview(self,columns="#1")
+        self.treeview.heading("#0",text="Ciudad")
+        self.treeview.heading("#1",text="Codigo Postal")
+        self.treeview.column("#0",anchor="center")
+        self.treeview.column("#1",anchor="center")
+        self.treeview.grid(column=0,row=0)
+        self.treeview.columnconfigure(0,weight=1)
+        self.treeview.rowconfigure(0,weight=1)
+
+def main():
+    main_window = tk.Tk()
+    app = Application(main_window)
+    app.mainloop()
+    return 0
+
+if __name__ == '__main__':
+    main()
