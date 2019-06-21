@@ -1,0 +1,67 @@
+## 1 Ejercicio Hacer un formulario tkinter que es una calculadora, tiene 2 entry para ingresar los valores V1 y V2.
+## Y 4 botones de operaciones para las operaciones respectivas + , - , * , / ,
+## al cliquearlos muestre el resultado de aplicar el operador respectivo en los V1 y V2 .
+
+from tkinter import *
+from tkinter import ttk
+
+class Aplicacion():
+    def __init__(self):     #--- recibe como parámetros un form contenedor y un título
+        self.raiz = Tk()
+        self.raiz.title('Calculadora')
+        self.marco = ttk.Frame(self.raiz,borderwidth =2,relief="raised",padding=(10,10))
+
+        self.lblPrimerOperando = ttk.Label(self.raiz,text = 'Primer Operando')
+        self.lblSegundoOperando = ttk.Label(self.raiz,text='Segundo Operando')
+
+        self.num1 = IntVar()
+        self.num1.set(0)
+        self.num2 = IntVar()
+        self.num2.set(0)
+
+        self.txtPrimerOperando = ttk.Entry(self.raiz,textvariable = self.num1,width=10)
+        self.txtSegundoOperando = ttk.Entry(self.raiz,textvariable = self.num2,width=10)
+
+        self.btnSumar = ttk.Button(self.raiz,text='+',command = self.suma)
+        self.btnRestar = ttk.Button(self.raiz,text='-',command = self.resta)
+        self.btnMultiplicar = ttk.Button(self.raiz,text='X',command = self.multiplicacion)
+        self.btnDividir = ttk.Button(self.raiz,text='%',command = self.division)
+
+        self.marco.grid(column=0, row=0, padx=5, pady=5)
+        self.lblPrimerOperando.grid(column=0,row=0)
+        self.lblSegundoOperando.grid(column=1,row=0)
+        self.txtPrimerOperando.grid(column=0,row=1)
+        self.txtSegundoOperando.grid(column=1,row=1)
+        self.btnSumar.grid(column=2,row=1)
+        self.btnRestar.grid(column=3,row=1)
+        self.btnMultiplicar.grid(column=4,row=1)
+        self.btnDividir.grid(column=5,row=1)
+
+        self.txtPrimerOperando.focus_set()
+        self.raiz.mainloop()
+
+    def suma(self):
+        resultado = self.num1.get() + self.num2.get()
+        print(resultado)
+
+    def resta(self):
+        resultado = self.num1.get() - self.num2.get()
+        print(resultado)
+
+    def multiplicacion(self):
+        resultado = self.num1.get() * self.num2.get()
+        print (resultado)
+
+    def division(self):
+        try:
+            resultado = self.num1.get() / self.num2.get()
+            print (resultado)
+        except ZeroDivisionError:
+            print('No se puede dividir por cero')
+
+def main():
+    mi_app = Aplicacion()
+    return 0
+
+if __name__ == '__main__':
+    main()
