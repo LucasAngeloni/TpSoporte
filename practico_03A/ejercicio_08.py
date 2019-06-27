@@ -17,23 +17,23 @@
 import datetime
 import sqlite3
 
-from practico_03.ejercicio_02 import agregar_persona
-from practico_03.ejercicio_06 import reset_tabla
-from practico_03.ejercicio_07 import agregar_peso
-from practico_03.ejercicio_04 import buscar_persona
+from practico_03_A.ejercicio_02 import agregar_persona
+from practico_03_A.ejercicio_06 import reset_tabla
+from practico_03_A.ejercicio_07 import agregar_peso
+from practico_03_A.ejercicio_04 import buscar_persona
+from practico_03_A.ejercicio_02 import session
+from practico_03_A.ejercicio_06 import PersonaPeso
 
 
 def listar_pesos(id_persona):
-    db=sqlite3.connect('mibase.db')
-    cursor=db.cursor()
+    pesos=[]
     if (buscar_persona(id_persona) == False):
         return False
-    cadena = "SELECT fecha,peso FROM personas_peso where idPersona = ?"
-    tdatos = (id_persona,)
-    cursor.execute(cadena,tdatos)
-    lista = cursor.fetchall()
-    return lista
-
+    filtro=session.query(PersonaPeso).filter(PersonaPeso.idPersona==id_persona).all()
+    for i in filtro:
+        fp=(i.fecha,i.peso)
+        pesos.append(fp)
+    return pesos
 
 @reset_tabla
 def pruebas():
@@ -42,8 +42,8 @@ def pruebas():
     agregar_peso(id_juan, datetime.datetime(2018, 6, 1), 85)
     pesos_juan = listar_pesos(id_juan)
     pesos_esperados = [
-        ("2018-05-01 00:00:00", 80),
-        (datetime.datetime(2018,6,1).strftime('%Y-%m-%d %H:%M:%S'), 85),
+        (datetime.date(2018,5,1), 80),
+        (datetime.date(2018,6,1), 85),
     ]
     assert pesos_juan == pesos_esperados
     # id incorrecto
@@ -52,4 +52,3 @@ def pruebas():
 
 if __name__ == '__main__':
     pruebas()
-

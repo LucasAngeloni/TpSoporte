@@ -2,13 +2,22 @@
 # y devuelva los datos ingresados el id del nuevo registro.
 
 import datetime
+import sqlite3
 
 from practico_03.ejercicio_01 import reset_tabla
 
 
 def agregar_persona(nombre, nacimiento, dni, altura):
-    return 0
-
+    db=sqlite3.connect('mibase.db')
+    cursor=db.cursor()
+    sentencia = "INSERT into personas(nombre,fechaNacimiento,dni,altura)" \
+                "VALUES(?,?,?,?)"
+    tdatos = (nombre,nacimiento,dni,altura)
+    cursor.execute(sentencia,tdatos)
+    db.commit()
+    id = cursor.lastrowid
+    db.close()
+    return id
 
 @reset_tabla
 def pruebas():
