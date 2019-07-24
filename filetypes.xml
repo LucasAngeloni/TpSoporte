@@ -6,6 +6,7 @@
       <mapping pattern="TP3A_ejercicio1" type="Python" />
       <mapping pattern="ejercicio_02" type="Python" />
       <mapping pattern="ejercicio_01" type="Python" />
+      <mapping pattern="mibase" type="SQL" />
     </extensionMap>
   </component>
 </application>
