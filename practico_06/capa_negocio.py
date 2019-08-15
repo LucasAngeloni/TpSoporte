@@ -63,12 +63,11 @@ class NegocioSocio(object):
                 self.datos.alta(socio)
                 return True
         except DniRepetido as e:
-            print(e)
+            return e
         except LongitudInvalida as e:
-            print(e)
+            return e
         except MaximoAlcanzado as e:
-            print(e)
-        return False
+            return e
 
     def baja(self, id_socio):
         """
@@ -92,8 +91,7 @@ class NegocioSocio(object):
             self.regla_2(socio)
             self.datos.modificacion(socio)
         except LongitudInvalida as e:
-            print(e)
-            return False
+            return e
         return True
 
     def regla_1(self, socio):
@@ -105,7 +103,7 @@ class NegocioSocio(object):
         """
         dni = self.datos.buscar_dni(socio.dni)
         if dni is not None:
-            raise DniRepetido('Ya se encuentra el dni')
+            raise DniRepetido('Ya se encuentra un usuario con ese dni')
             return False
         return True
 
@@ -118,13 +116,13 @@ class NegocioSocio(object):
         """
         long_nombre = len(socio.nombre)
         long_apellido = len(socio.apellido)
-        if long_nombre> self.MIN_CARACTERES and long_nombre <self.MAX_CARACTERES:
-            if long_apellido > self.MIN_CARACTERES and long_apellido < self.MAX_CARACTERES:
+        if long_nombre >= self.MIN_CARACTERES and long_nombre <= self.MAX_CARACTERES:
+            if long_apellido >= self.MIN_CARACTERES and long_apellido <= self.MAX_CARACTERES:
                 return True
             else:
-                raise LongitudInvalida("Apellido debe tener entre "+str(self.MIN_CARACTERES+1)+" y "+ str(self.MAX_CARACTERES-1))
+                raise LongitudInvalida("Apellido debe tener entre "+str(self.MIN_CARACTERES)+" y "+ str(self.MAX_CARACTERES))
         else:
-            raise LongitudInvalida("Nombre debe tener entre "+str(self.MIN_CARACTERES+1)+" y "+ str(self.MAX_CARACTERES-1))
+            raise LongitudInvalida("Nombre debe tener entre "+str(self.MIN_CARACTERES)+" y "+ str(self.MAX_CARACTERES))
         return False
 
     def regla_3(self):
