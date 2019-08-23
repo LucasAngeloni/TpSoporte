@@ -9,7 +9,7 @@ from practico_05.ejercicio_01 import Base,Socio
 class DatosSocio(object):
 
     def __init__(self):
-
+        #engine = create_engine('sqlite:///C:\\Users\\Gianluca\\PycharmProjects\\soporte_trabajos_practicos\\practico_05\\socios.db')
         engine = create_engine('sqlite:///socios.db')
         Base.metadata.bind = engine
         db_session = sessionmaker()
