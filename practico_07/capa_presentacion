@@ -1,0 +1,210 @@
+## 4. Ejercicio al Formulario del Ejercicio 3 ,  agrege  los siguientes botones 1- un  botón  Alta
+## que inicia otra venta donde puedo ingresar una ciudad y su código postal .
+## 2 – un botón Baja que borra del listad de ciudades la ciudad que esta selecionada en Treeview .
+## 3 – un botón Modificar . Todos los cambios se deben ver reflejados en la lista que se muestra .
+
+#from practico_04.ejercicio_03 import Application
+import tkinter as tk
+from tkinter import ttk
+from tkinter.messagebox import *
+from practico_06.capa_negocio import NegocioSocio
+from practico_05.ejercicio_01 import Socio
+
+class Application(ttk.Frame):
+
+    #Instancia de NegocioSocio a través del cual se comunicará con la base de datos
+    ns = NegocioSocio()
+
+    def __init__(self, main_window):
+        super().__init__(main_window)
+
+        main_window.title("ABM Socios")
+
+        #Se crea el marco que contendrá el conjunto de botones
+        self.marco = ttk.Frame(main_window,borderwidth =0,relief="raised",padding=(20,20),width=500,height=300)
+        self.marco.grid(column=0, row=1,sticky = tk.SW)
+        self.marco.columnconfigure(0,weight=1)
+        self.marco.rowconfigure(0,weight=1)
+
+        #Se genera el treeview y coloca en la ventana principal
+        self.cargar_tabla()
+
+        #Carga de los datos de la Base de Datos
+        self.cargar_datos()
+        self.grid()
+
+        #Creación de los botones que se utlizarán en la aplicación
+        self.cargar_botones(main_window)
+
+    def cargar_tabla(self):
+
+        self.treeview = ttk.Treeview(columns=("Nombre","Apellido","DNI"))
+
+        self.treeview.heading("#0",text="Id")
+        self.treeview.heading("#1",text="Nombre")
+        self.treeview.heading("#2",text="Apellido")
+        self.treeview.heading("#3",text="DNI")
+        self.treeview.column("#0",anchor="center")
+        self.treeview.column("#1",anchor="center")
+        self.treeview.column("#2",anchor="center")
+        self.treeview.column("#3",anchor="center")
+        self.treeview.grid(column=0,row=0)
+        self.treeview.columnconfigure(0,weight=1)
+        self.treeview.rowconfigure(0,weight=1)
+
+    def cargar_datos(self):
+
+        socios = self.ns.todos()
+        for i in socios:
+            self.treeview.insert("",tk.END,text=i.id_socio,values=(i.nombre,i.apellido,i.dni))
+
+    def cargar_botones(self,main_window):
+        self.btnAlta = ttk.Button(self.marco,text="Alta",command=lambda: self.alta(main_window))
+        self.btnAlta.grid(column=0,row=1)
+        self.btnBaja = ttk.Button(self.marco,text="Baja",command=lambda: self.baja(main_window))
+        self.btnBaja.grid(column=1,row=1)
+        self.btnModificar = ttk.Button(self.marco,text="Modificar",command=lambda: self.modificacion(main_window))
+        self.btnModificar.grid(column=2,row=1)
+
+    def alta(self,main_window):
+
+        #Creación ventana hija de main_window
+        ventana_alta = tk.Toplevel(main_window)
+        ventana_alta.geometry("300x200")
+        ventana_alta.title("Alta de Socio")
+        ventana_alta.focus_set()
+        ventana_alta.grab_set()
+
+        #Panel donde se colacarán los componentes de la ventana
+        panel = ttk.PanedWindow(ventana_alta)
+        panel.grid(padx=60,pady=45)
+
+        self.lblNombre = ttk.Label(panel,text="Nombre")
+        self.lblApellido = ttk.Label(panel,text="Apellido")
+        self.lblDni = ttk.Label(panel,text="DNI")
+        nombre = tk.StringVar()
+        apellido = tk.StringVar()
+        dni = tk.IntVar()
+
+        self.txtNombre = ttk.Entry(panel,textvariable=nombre,width=15)
+        self.txtNombre.focus()
+        self.txtApellido = ttk.Entry(panel,textvariable=apellido,width=15)
+        self.txtDni = ttk.Entry(panel,textvariable=dni,width=15)
+
+        self.btnAceptar = ttk.Button(panel,text="Aceptar",width=10,command =lambda: self.aceptar(ventana_alta,self.txtNombre.get(),self.txtApellido.get(),self.txtDni.get()))
+        self.btnCancelar = ttk.Button(panel,text="Cancelar",width=10,command=ventana_alta.destroy)
+
+        self.lblNombre.grid(column=0,row=0,padx=2,pady=2)
+        self.lblApellido.grid(column=0,row=1,padx=2,pady=2)
+        self.lblDni.grid(column=0,row=2,padx=2,pady=2)
+        self.btnAceptar.grid(column=0,row=3,padx=2,pady=2)
+
+        self.txtNombre.grid(column=1,row=0,padx=2,pady=2)
+        self.txtApellido.grid(column=1,row=1,padx=2,pady=2)
+        self.txtDni.grid(column=1,row=2,padx=2,pady=2)
+        self.btnCancelar.grid(column=1,row=3,padx=2,pady=2)
+
+    def aceptar(self,ventana,nombre,apellido,dni):
+
+        if nombre == "" or apellido == "" or dni == "":
+            showerror("Error","Se deben completar todos los campos")
+        else:
+            socio = Socio(nombre=nombre,apellido=apellido,dni=dni)
+            alta = self.ns.alta(socio)
+
+            if alta is True:
+                self.cargar_tabla()
+                self.cargar_datos()
+                self.grid()
+                ventana.destroy()
+            else:
+                showerror("Error",alta)
+
+    def baja(self,main_window):
+        id = self.treeview.focus()
+        if id:
+            p = askyesno("Baja","¿Estás seguro de dar de baja el socio seleccionado?")
+            if p:
+                selected_item = self.treeview.selection()[0]
+                self.ns.baja(self.treeview.item(selected_item)['text'])
+                self.treeview.delete(selected_item)
+        else:
+            showerror("Error","Debe seleccionar un socio")
+
+    def modificacion(self, main_window):
+        id = self.treeview.focus()
+        if id:
+            #Creación ventana hija de main_window
+            ventana_modificacion = tk.Toplevel(main_window)
+            ventana_modificacion.title("Modificación de Socio")
+            ventana_modificacion.geometry("300x200")
+            ventana_modificacion.focus_set()
+            ventana_modificacion.grab_set()
+
+            #Panel donde se colacarán los componentes de la ventana
+            panel = ttk.PanedWindow(ventana_modificacion)
+            panel.grid(padx=50,pady=35)
+
+            #Item seleccionado en la ventana principal
+            selected_item = self.treeview.selection()[0]
+            #Lista con los datos del item seleccionado
+            datos = self.treeview.item(selected_item)
+
+            self.lblId = ttk.Label(panel,text="ID")
+            self.lblNombre = ttk.Label(panel,text="Nombre")
+            self.lblApellido = ttk.Label(panel,text="Apellido")
+            self.lblDni = ttk.Label(panel,text="DNI")
+
+            id = datos['text']
+            nombre = datos['values'][0]
+            apellido = datos['values'][1]
+            dni = datos['values'][2]
+
+            self.txtId = ttk.Entry(panel,width=15)
+            self.txtId.insert(0,id)
+            self.txtId.config(state="readonly")
+            self.txtNombre = ttk.Entry(panel,textvariable=nombre,width=15)
+            self.txtNombre.insert(1,nombre)
+            self.txtApellido = ttk.Entry(panel,textvariable=apellido,width=15)
+            self.txtApellido.insert(2,apellido)
+            self.txtDni = ttk.Entry(panel,textvariable=dni,width=15)
+            self.txtDni.insert(3,dni)
+            self.txtDni.config(state="readonly")
+
+            self.btnAceptar = ttk.Button(panel,text="Aceptar",width=10,command=lambda: self.modificar(ventana_modificacion,id,self.txtNombre.get(),self.txtApellido.get(),self.txtDni.get()))
+            self.btnCancelar = ttk.Button(panel,text="Cancelar",width=10,command=ventana_modificacion.destroy)
+
+            self.lblId.grid(column=0,row=0,padx=5,pady=2)
+            self.lblNombre.grid(column=0,row=1,padx=5,pady=2)
+            self.lblApellido.grid(column=0,row=2,padx=5,pady=2)
+            self.lblDni.grid(column=0,row=3,padx=5,pady=2)
+            self.btnAceptar.grid(column=0,row=4,padx=5,pady=2)
+            self.txtId.grid(column=1,row=0,padx=5,pady=2)
+            self.txtNombre.grid(column=1,row=1,padx=5,pady=2)
+            self.txtApellido.grid(column=1,row=2,padx=5,pady=2)
+            self.txtDni.grid(column=1,row=3,padx=5,pady=2)
+            self.btnCancelar.grid(column=1,row=4,padx=5,pady=2)
+        else:
+            showerror("Error","Debe seleccionar un socio")
+
+    def modificar(self,ventana,id,nombre,apellido,dni):
+
+        if nombre == "" or apellido == "" or dni == "":
+            showerror("Error","Se debe completar el campo")
+        else:
+            selected_item = self.treeview.selection()[0]
+            mod = self.ns.modificacion(Socio(id_socio=id,nombre=nombre,apellido=apellido,dni=dni))
+            if mod is True:
+                self.treeview.item(selected_item, values=(nombre,apellido,dni))
+                ventana.destroy()
+            else:
+                showerror("Error",mod)
+
+def main():
+    main_window = tk.Tk()
+    app = Application(main_window)
+    app.mainloop()
+    return 0
+
+if __name__ == '__main__':
+    main()
