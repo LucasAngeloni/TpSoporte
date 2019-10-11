@@ -14,6 +14,10 @@
           <option name="url" value="https://github.com/anotheruser191115/frro-soporte-2019-24" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/GianlucaGattiTeixeira/python-sdk" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="C:\Users\Lucas\PycharmProjects" />
