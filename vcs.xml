@@ -22,6 +22,10 @@
           <option name="url" value="https://github.com/LucasAngeloni/MercadoLibre" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/LucasAngeloni/python3-sdk" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="C:\Users\Lucas\PycharmProjects" />
