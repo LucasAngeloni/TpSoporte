@@ -1,6 +1,7 @@
 <application>
   <component name="FileTypeManager" version="17">
     <extensionMap>
+      <mapping pattern="all_files_here" type="PLAIN_TEXT" />
       <mapping ext="db" type="PLAIN_TEXT" />
       <mapping pattern="TP3A_ejercicio2" type="Python" />
       <mapping pattern="TP3A_ejercicio1" type="Python" />
