@@ -1,6 +1,7 @@
 <application>
   <component name="FileTypeManager" version="17">
     <extensionMap>
+      <mapping pattern="misestilos" type="CSS" />
       <mapping pattern="stylec" type="CSS" />
       <mapping pattern="style" type="CSS" />
       <mapping pattern="all_files_here" type="PLAIN_TEXT" />
