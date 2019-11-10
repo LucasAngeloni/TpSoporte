@@ -1,14 +1,15 @@
 <application>
   <component name="FileTypeManager" version="17">
     <extensionMap>
-      <mapping pattern="misestilos" type="CSS" />
       <mapping pattern="stylec" type="CSS" />
       <mapping pattern="style" type="CSS" />
+      <mapping pattern="misestilos" type="CSS" />
       <mapping pattern="all_files_here" type="PLAIN_TEXT" />
+      <mapping ext="ttf" type="PLAIN_TEXT" />
       <mapping ext="db" type="PLAIN_TEXT" />
+      <mapping pattern="ejercicio_02" type="Python" />
       <mapping pattern="TP3A_ejercicio2" type="Python" />
       <mapping pattern="ejercicio_01" type="Python" />
-      <mapping pattern="ejercicio_02" type="Python" />
       <mapping pattern="TP3A_ejercicio1" type="Python" />
       <mapping pattern="mibase" type="SQL" />
     </extensionMap>
