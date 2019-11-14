@@ -46,6 +46,10 @@
           <option name="url" value="https://github.com/mbr/flask-bootstrap" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/GianlucaGattiTeixeira/TpSoporteFinal" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="C:\Users\Lucas\PycharmProjects" />
