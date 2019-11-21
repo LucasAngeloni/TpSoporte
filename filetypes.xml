@@ -5,6 +5,7 @@
       <mapping pattern="style" type="CSS" />
       <mapping pattern="misestilos" type="CSS" />
       <mapping pattern="all_files_here" type="PLAIN_TEXT" />
+      <mapping pattern="micodigo.js" type="PLAIN_TEXT" />
       <mapping ext="ttf" type="PLAIN_TEXT" />
       <mapping ext="db" type="PLAIN_TEXT" />
       <mapping pattern="ejercicio_02" type="Python" />
